@@ -1,5 +1,24 @@
 # T4G ML Diabetic Retinopathy Classification
 
+## How to run this program in Docker (Recommended Way)
+
+```bash
+git clone https://github.com/shaunliew/t4g-ml.git
+
+sh run_docker.sh
+```
+
+### Note: make sure you add your AWS credentials in `.env` to access the bedrock model
+
+`.env` file contents
+
+```bash
+AWS_SECRET_ACCESS_KEY=xxx
+AWS_ACCESS_KEY_ID=xxx
+AWS_REGION=xxx
+MODEL_TYPE=xxx
+```
+
 ## Dataset
 
 [Diabetic Retinopathy Arranged Kaggle](https://www.kaggle.com/datasets/amanneo/diabetic-retinopathy-resized-arranged/data)
