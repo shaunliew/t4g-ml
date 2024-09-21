@@ -1,0 +1,7 @@
+raw_data/
+venv/
+gcp-credential.json
+__pycache__/
+.env
+temp_image.jpg
+.DS_Store
