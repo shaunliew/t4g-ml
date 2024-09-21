@@ -1,18 +1,34 @@
 from anthropic import AnthropicBedrock
 from dotenv import load_dotenv
 import os
+import boto3
 load_dotenv()
 
 AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
 AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
-AWS_REGION = os.getenv("AWS_REGION")
+AWS_REGION = os.getenv("AWS_REGION").strip("'\"")
 MODEL_TYPE = os.getenv("MODEL_TYPE")
 
-print("Checking environment variables:")
-print(f"AWS_ACCESS_KEY_ID: {'Set' if os.getenv('AWS_ACCESS_KEY_ID') else 'Not Set'}")
-print(f"AWS_SECRET_ACCESS_KEY: {'Set' if os.getenv('AWS_SECRET_ACCESS_KEY') else 'Not Set'}")
-print(f"AWS_REGION: {os.getenv('AWS_REGION')}")
-print(f"MODEL_TYPE: {os.getenv('MODEL_TYPE')}")
+# print("Checking environment variables:")
+# print(f"AWS_ACCESS_KEY_ID: {'Set' if os.getenv('AWS_ACCESS_KEY_ID') else 'Not Set'}")
+# print(f"AWS_SECRET_ACCESS_KEY: {'Set' if os.getenv('AWS_SECRET_ACCESS_KEY') else 'Not Set'}")
+# print(f"AWS_REGION: {os.getenv('AWS_REGION')}")
+# print(f"MODEL_TYPE: {os.getenv('MODEL_TYPE')}")
+
+session = boto3.Session(
+    region_name=AWS_REGION,
+    aws_access_key_id=AWS_SECRET_ACCESS_KEY,
+    aws_secret_access_key=AWS_ACCESS_KEY_ID
+)
+
+try:
+    sts = session.client('sts')
+    response = sts.get_caller_identity()
+    # print(f"AWS Account ID: {response['Account']}")
+    # print(f"AWS ARN: {response['Arn']}")
+    print("AWS Credentials are valid and working.")
+except Exception as e:
+    print(f"Error checking AWS credentials: {str(e)}")
 
 client = AnthropicBedrock(
     aws_access_key=AWS_SECRET_ACCESS_KEY,
